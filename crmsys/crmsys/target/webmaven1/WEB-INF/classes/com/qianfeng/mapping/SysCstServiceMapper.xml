@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.SysCstServiceMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.SysCstService">
+    <id column="ser_id" jdbcType="INTEGER" property="serId" />
+    <result column="ser_type" jdbcType="VARCHAR" property="serType" />
+    <result column="ser_title" jdbcType="VARCHAR" property="serTitle" />
+    <result column="ser_cust_no" jdbcType="INTEGER" property="serCustNo" />
+    <result column="ser_status" jdbcType="VARCHAR" property="serStatus" />
+    <result column="ser_request" jdbcType="VARCHAR" property="serRequest" />
+    <result column="ser_create_id" jdbcType="INTEGER" property="serCreateId" />
+    <result column="ser_create_date" jdbcType="TIMESTAMP" property="serCreateDate" />
+    <result column="ser_due_id" jdbcType="INTEGER" property="serDueId" />
+    <result column="ser_due_date" jdbcType="TIMESTAMP" property="serDueDate" />
+    <result column="ser_deal" jdbcType="VARCHAR" property="serDeal" />
+    <result column="ser_deal_date" jdbcType="TIMESTAMP" property="serDealDate" />
+    <result column="ser_result" jdbcType="VARCHAR" property="serResult" />
+    <result column="ser_satisfy" jdbcType="INTEGER" property="serSatisfy" />
+    <result column="ser_flag" jdbcType="INTEGER" property="serFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ser_id, ser_type, ser_title, ser_cust_no, ser_status, ser_request, ser_create_id, 
+    ser_create_date, ser_due_id, ser_due_date, ser_deal, ser_deal_date, ser_result, ser_satisfy, 
+    ser_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cst_service
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cst_service
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.SysCstService">
+    insert into cst_service (ser_id, ser_type, ser_title, 
+      ser_cust_no, ser_status, ser_request, 
+      ser_create_id, ser_create_date, ser_due_id, 
+      ser_due_date, ser_deal, ser_deal_date, 
+      ser_result, ser_satisfy, ser_flag
+      )
+    values (#{serId,jdbcType=INTEGER}, #{serType,jdbcType=VARCHAR}, #{serTitle,jdbcType=VARCHAR}, 
+      #{serCustNo,jdbcType=INTEGER}, #{serStatus,jdbcType=VARCHAR}, #{serRequest,jdbcType=VARCHAR}, 
+      #{serCreateId,jdbcType=INTEGER}, #{serCreateDate,jdbcType=TIMESTAMP}, #{serDueId,jdbcType=INTEGER}, 
+      #{serDueDate,jdbcType=TIMESTAMP}, #{serDeal,jdbcType=VARCHAR}, #{serDealDate,jdbcType=TIMESTAMP}, 
+      #{serResult,jdbcType=VARCHAR}, #{serSatisfy,jdbcType=INTEGER}, #{serFlag,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.pojo.SysCstService">
+    insert into cst_service
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serId != null">
+        ser_id,
+      </if>
+      <if test="serType != null">
+        ser_type,
+      </if>
+      <if test="serTitle != null">
+        ser_title,
+      </if>
+      <if test="serCustNo != null">
+        ser_cust_no,
+      </if>
+      <if test="serStatus != null">
+        ser_status,
+      </if>
+      <if test="serRequest != null">
+        ser_request,
+      </if>
+      <if test="serCreateId != null">
+        ser_create_id,
+      </if>
+      <if test="serCreateDate != null">
+        ser_create_date,
+      </if>
+      <if test="serDueId != null">
+        ser_due_id,
+      </if>
+      <if test="serDueDate != null">
+        ser_due_date,
+      </if>
+      <if test="serDeal != null">
+        ser_deal,
+      </if>
+      <if test="serDealDate != null">
+        ser_deal_date,
+      </if>
+      <if test="serResult != null">
+        ser_result,
+      </if>
+      <if test="serSatisfy != null">
+        ser_satisfy,
+      </if>
+      <if test="serFlag != null">
+        ser_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serId != null">
+        #{serId,jdbcType=INTEGER},
+      </if>
+      <if test="serType != null">
+        #{serType,jdbcType=VARCHAR},
+      </if>
+      <if test="serTitle != null">
+        #{serTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="serCustNo != null">
+        #{serCustNo,jdbcType=INTEGER},
+      </if>
+      <if test="serStatus != null">
+        #{serStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="serRequest != null">
+        #{serRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="serCreateId != null">
+        #{serCreateId,jdbcType=INTEGER},
+      </if>
+      <if test="serCreateDate != null">
+        #{serCreateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serDueId != null">
+        #{serDueId,jdbcType=INTEGER},
+      </if>
+      <if test="serDueDate != null">
+        #{serDueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serDeal != null">
+        #{serDeal,jdbcType=VARCHAR},
+      </if>
+      <if test="serDealDate != null">
+        #{serDealDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serResult != null">
+        #{serResult,jdbcType=VARCHAR},
+      </if>
+      <if test="serSatisfy != null">
+        #{serSatisfy,jdbcType=INTEGER},
+      </if>
+      <if test="serFlag != null">
+        #{serFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.pojo.SysCstService">
+    update cst_service
+    <set>
+      <if test="serType != null">
+        ser_type = #{serType,jdbcType=VARCHAR},
+      </if>
+      <if test="serTitle != null">
+        ser_title = #{serTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="serCustNo != null">
+        ser_cust_no = #{serCustNo,jdbcType=INTEGER},
+      </if>
+      <if test="serStatus != null">
+        ser_status = #{serStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="serRequest != null">
+        ser_request = #{serRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="serCreateId != null">
+        ser_create_id = #{serCreateId,jdbcType=INTEGER},
+      </if>
+      <if test="serCreateDate != null">
+        ser_create_date = #{serCreateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serDueId != null">
+        ser_due_id = #{serDueId,jdbcType=INTEGER},
+      </if>
+      <if test="serDueDate != null">
+        ser_due_date = #{serDueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serDeal != null">
+        ser_deal = #{serDeal,jdbcType=VARCHAR},
+      </if>
+      <if test="serDealDate != null">
+        ser_deal_date = #{serDealDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serResult != null">
+        ser_result = #{serResult,jdbcType=VARCHAR},
+      </if>
+      <if test="serSatisfy != null">
+        ser_satisfy = #{serSatisfy,jdbcType=INTEGER},
+      </if>
+      <if test="serFlag != null">
+        ser_flag = #{serFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.SysCstService">
+    update cst_service
+    set ser_type = #{serType,jdbcType=VARCHAR},
+      ser_title = #{serTitle,jdbcType=VARCHAR},
+      ser_cust_no = #{serCustNo,jdbcType=INTEGER},
+      ser_status = #{serStatus,jdbcType=VARCHAR},
+      ser_request = #{serRequest,jdbcType=VARCHAR},
+      ser_create_id = #{serCreateId,jdbcType=INTEGER},
+      ser_create_date = #{serCreateDate,jdbcType=TIMESTAMP},
+      ser_due_id = #{serDueId,jdbcType=INTEGER},
+      ser_due_date = #{serDueDate,jdbcType=TIMESTAMP},
+      ser_deal = #{serDeal,jdbcType=VARCHAR},
+      ser_deal_date = #{serDealDate,jdbcType=TIMESTAMP},
+      ser_result = #{serResult,jdbcType=VARCHAR},
+      ser_satisfy = #{serSatisfy,jdbcType=INTEGER},
+      ser_flag = #{serFlag,jdbcType=INTEGER}
+    where ser_id = #{serId,jdbcType=INTEGER}
+  </update>
+  
+   <resultMap type="com.qianfeng.vo.VService" id="serMap">
+  	<result column="serId" property="serId"></result>
+  	<result column="serType" property="serType"></result>
+  	<result column="serTitle" property="serTitle"></result>
+  	<result column="custName" property="custName"></result>
+  	<result column="serStatus" property="serStatus"></result>
+  	<result column="serRequest" property="serRequest"></result>
+  	<result column="usrCreateName" property="usrCreateName"></result>
+  	<result column="serCreateDate" property="serCreateDate"></result>
+  	<result column="usrDueName" property="usrDueName"></result>
+  	<result column="serDueDate" property="serDueDate"></result>
+  	<result column="serDeal" property="serDeal"></result>
+  	<result column="serDealDate" property="serDealDate"></result>
+  	<result column="serResult" property="serResult"></result>
+  	<result column="serSatisfy" property="serSatisfy"></result>
+  	<result column="serFlag" property="serFlag"></result>
+  </resultMap>
+  
+  <select id="selectAllV" resultMap="serMap">
+  	SELECT ser.ser_id serId, ser.ser_type serType, ser.ser_title serTitle ,cus.cust_name custName,
+	ser.ser_status serStatus, ser.ser_request serRequest, us.usr_name usrCreateName, ser.ser_create_date serCreateDate,
+	us2.usr_name usrDueName, ser.ser_due_date serDueDate, ser.ser_deal serDeal, ser.ser_deal_date serDealDate,
+	ser.ser_result serResult, ser.ser_satisfy serSatisfy, ser.ser_flag serFlag
+	from cst_service ser
+	INNER JOIN cst_customer cus
+	on cus.cust_Id = ser.ser_cust_no
+	INNER JOIN sys_user us
+	on us.usr_id = ser.ser_create_id
+	INNER JOIN sys_user us2
+	on us2.usr_id = ser.ser_due_id
+
+  </select>
+  
+   <select id="selectVByRecord" parameterType="com.qianfeng.pojo.SysCstService" resultMap="serMap">
+  	SELECT ser.ser_id serId, ser.ser_type serType, ser.ser_title serTitle ,cus.cust_name custName,
+	ser.ser_status serStatus, ser.ser_request serRequest, us.usr_name usrCreateName, ser.ser_create_date serCreateDate,
+	us2.usr_name usrDueName, ser.ser_due_date serDueDate, ser.ser_deal serDeal, ser.ser_deal_date serDealDate,
+	ser.ser_result serResult, ser.ser_satisfy serSatisfy, ser.ser_flag serFlag
+	from cst_service ser
+	INNER JOIN cst_customer cus
+	on cus.cust_Id = ser.ser_cust_no
+	INNER JOIN sys_user us
+	on us.usr_id = ser.ser_create_id
+	INNER JOIN sys_user us2
+	on us2.usr_id = ser.ser_due_id
+	where 1=1
+	<if test="serCustNo != null">
+        and ser.ser_cust_no = #{serCustNo}
+      </if>
+	 <if test="serType != null">
+      	and  ser.ser_type = #{serType}
+      </if>
+      <if test="serCreateDate != null">
+        and ser.ser_create_date like "%"#{serCreateDate}"%"
+      </if>
+  </select>
+  
+  
+  
+   <resultMap type="com.qianfeng.vo.VServiceShort" id="serShortMap">
+  	<result column="serId" property="serId"></result>
+  	<result column="serType" property="serType"></result>
+  	<result column="serTitle" property="serTitle"></result>
+  	<result column="custName" property="custName"></result>
+  	<result column="usrCreateName" property="usrCreateName"></result>
+  	<result column="serCreateDate" property="serCreateDate"></result>
+  </resultMap>
+  
+  <select id="selectAllVS" resultMap="serShortMap">
+	SELECT ser.ser_id serId, ser.ser_type serType, ser.ser_title serTitle ,cus.cust_name custName,
+	us.usr_name usrCreateName, ser.ser_create_date serCreateDate
+	from cst_service ser
+	INNER JOIN cst_customer cus
+	on cus.cust_Id = ser.ser_cust_no
+	INNER JOIN sys_user us
+	on us.usr_id = ser.ser_create_id
+
+  </select>
+  
+  
+  
+  <select id="selectVSByService"  parameterType="com.qianfeng.pojo.SysCstService"  resultMap="serShortMap">
+	SELECT ser.ser_id serId, ser.ser_type serType, ser.ser_title serTitle ,cus.cust_name custName,
+	us.usr_name usrCreateName, ser.ser_create_date serCreateDate
+	from cst_service ser
+	INNER JOIN cst_customer cus
+	on cus.cust_Id = ser.ser_cust_no
+	INNER JOIN sys_user us
+	on us.usr_id = ser.ser_create_id
+	where 1=1
+	<if test="serCustNo != null">
+        and ser.ser_cust_no = #{serCustNo}
+      </if>
+	 <if test="serType != null">
+      	and  ser.ser_type like "%"#{serType}"%"
+      </if>
+      <if test="serCreateDate != null">
+        and ser.ser_create_date like "%"#{serCreateDate}"%"
+      </if>
+
+  </select>
+  
+  
+   
+  
+  
+  
+  
+  
+</mapper>

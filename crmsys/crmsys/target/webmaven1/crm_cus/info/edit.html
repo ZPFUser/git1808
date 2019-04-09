@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>客户开发计划</title>
+<link href="../../css/stylesheet.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/javascript.js"></script>
+<style>
+	body{ margin:0;
+		  padding:0}
+	.role{  margin:0px 30px 0px 0px; 
+			float:left; }
+	.right{
+		display:none;
+		}		
+	.overflow{
+		padding-left:30px;
+		display:block;}	
+</style>
+<script type="text/javascript">
+	function rightChange(id){
+			var div = document.getElementById(id);
+			div.className = "overflow";
+		}
+</script>
+</head>
+
+<body style="width:1366px">
+<div style="padding:5px;">
+  <div class="txt" style="padding-top:3px;" >当前位置：客户开发计划&nbsp;&gt;&nbsp;客户信息管理&nbsp;&gt;&nbsp;<a href="list.html">客户信息</a>&nbsp;&gt;&nbsp;编辑客户信息
+    <hr class="hr1" />
+  </div>
+  <div class="operation_button"> <a href="#" title="返回" onclick="back()">返回</a> </div>
+   <a href="#" title="保存" onclick="save()">保存</a>
+  <div class="out_bg">
+    <div class="in_bg" style=" height:470px;">
+     <div style="margin:100px 0px 0px 300px">
+     	 <form action="" onsubmit="return false;">
+         <table border="0" cellpadding="0" cellspacing="0" class="table_input txt">
+         <tr>
+          <td valign="top">客户名称</td>
+          <td><input type="text" name="custName" id="custName"/></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td width="126">地区</td>
+          <td width="411"><select name="custRegionId" id="region">
+          
+          </select></td>
+          <td width="126">客户经理</td>
+          <td width="442"><select name="custManagerId" id="manager">
+          
+          </select></td>
+        </tr>
+        <tr>
+          <td>客户等级</td>
+          <td><select name="custLevelId" id="level">
+          
+          </select></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+        	<td valign="top">客户满意度</td>
+          	<td>
+          	<select name="custSatisfy" id="custSatisfy">
+          	<option value="1">1</option>
+         	<option value="2">2</option>
+         	<option value="3">3</option>
+         	<option value="4">4</option>
+          	<option value="5">5</option>
+         	</select></td>
+         	<td>客户信用等级</td>
+          	<td><select name="custCredit" id="custCredit">
+          	<option value="1">1</option>
+          	<option value="2">2</option>
+          	<option value="3">3</option>
+          	<option value="4">4</option>
+          	<option value="5">5</option>
+          	</select></td>
+        </tr>
+        
+        <tr>
+          <td valign="top">地址</td>
+          <td><input type="text" name="custAddr" id="custAddr"/></td>
+          <td>邮政编码</td>
+          <td><input type="text" name="custZip" id="custZip"/></td>
+        </tr>
+        
+        <tr>
+          <td valign="top">电话</td>
+          <td><input type="text"  name="custTel" id="custTel"/></td>
+          <td></td>
+          <td></td>
+       
+        </tr>
+      </table>
+         </form>
+     </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		var id= window.location.search;
+		$.ajax({
+			type : "get",
+			url :"/crmsys/customer/find.do"+ id,
+			dataType : "json",	
+			success : function(data) {
+				if (data.code == 1) {
+					var info = data.info;
+					$("#custName").val(info.custName);
+					$("#custSatisfy").val(info.custSatisfy);
+					$("#custCredit").val(info.custCredit);
+					$("#custAddr").val(info.custAddr);
+					$("#custZip").val(info.custZip);
+					$("#custTel").val(info.custTel);
+				} else {
+					alert(data.info);
+				}
+			},
+			error : function() {
+				alert("ajax加载失败")
+			}
+			
+		})
+		
+		
+	})
+
+</script>
+
+<script type="text/javascript">
+	
+	$(function(){
+		$.ajax({
+			type:"get",
+			url:"/crmsys/customer/findCus.do",
+			dataType:"json",
+			success:function(data) {
+				if (data.code == 1) {
+					var infos = data.info;
+					var region = infos.custRegion;
+					var manager = infos.custManager;
+					var level = infos.custLevel;
+					
+					$(region).each(function(){
+						var html = '<option value="'+ this.dictId +'">' + this.dictItem +'</option>';
+						$("#region").append($(html));	
+					})
+					
+						
+			        $(manager).each(function(){
+						var html2 = '<option value="'+ this.usrId +'">' + this.usrName +'</option>';
+						$("#manager").append($(html2));
+			        })
+			        
+			       
+			        $(level).each(function(){
+					var html3 = '<option value="'+ this.dictId +'">' + this.dictItem +'</option>';
+						 $("#level").append($(html3));
+			        
+			        })
+			          
+			       
+				        
+					}
+			}
+		})
+				})
+</script>
+
+<script type="text/javascript">
+
+	function save(){
+		var id= window.location.search;
+		$.ajax({
+			type:"post",
+			url:"/crmsys/customer/modify.do" + id,
+			data:$("form").serialize(),
+			success:function(data) {
+				if(data.code == 1) {
+					window.location.href = "list.html";
+				}else {
+					alert(data.info);
+				}
+			}
+			
+		})
+	}
+
+</script>
+
+</body>
+</html>

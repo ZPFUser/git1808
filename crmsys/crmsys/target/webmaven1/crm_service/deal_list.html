@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>服务管理</title>
+<link href="../css/stylesheet.css" rel="stylesheet" type="text/css" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<link href="../pagination/pagination.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/simpla.jquery.configuration.js"></script>
+<script type="text/javascript" src="../js/javascript.js"></script>
+<script type="text/javascript" src="../datepicker/WdatePicker.js"> </script>
+<script type="text/javascript" src="../pagination/jquery.pagination.js"> </script>
+</head>
+
+<body>
+<div style="padding:5px;">
+  <div class="txt" style="padding-top:3px;" >当前位置：客户服务管理&nbsp;&gt;&nbsp;服务处理列表
+    <hr class="hr1" />
+  </div>
+  <div class="operation_button">
+    <a href="javascript:search()" title="查询">查询</a>
+  </div>
+  <form action="" onsubmit="return false;">
+  <div class="search_input">
+    <ul class="txt">
+      <li>客户名称：
+        <select name="serCustNo" id="serCustNo">
+				 <option value="">全部</option>
+			</select>
+      </li>
+      <li>服务类型：
+        <select name="serType" id="serType">
+         		<option value="">全部</option>
+        </select>
+      </li>
+      <li>创建日期：
+        <input type="text" name="serCreateDate" size="30" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd'})" />
+      </li>
+    </ul>
+  </div>
+  </form>
+  <div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_list" >
+      <thead>
+        <tr>
+          <th width="10%">编号</th>
+          <th width="10%">客户名称</th>
+          <th width="25%">概要</th>
+          <th width="10%">服务类型</th>
+          <th width="10%">创建人</th>
+          <th width="15%">创建日期</th>
+          <th width="10%">操作</th>
+        </tr>
+      </thead>
+      <tbody id="tid">
+       <!--  <tr>
+          <td>1</td>
+          <td><a href="#">太阳药业</a></td>
+          <td>询问我公司倒闭时间</td>
+          <td>咨询</td>
+          <td>小明</td>
+          <td>2007-12-6</td>
+          <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to('deal.html')" /></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="#">太阳药业</a></td>
+          <td>询问我公司倒闭时间</td>
+          <td>咨询</td>
+          <td>小明</td>
+          <td>2007-12-6</td>
+          <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to('deal.html')" /></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="#">太阳药业</a></td>
+          <td>询问我公司倒闭时间</td>
+          <td>咨询</td>
+          <td>小明</td>
+          <td>2007-12-6</td>
+          <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to('deal.html')" /></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="#">太阳药业</a></td>
+          <td>询问我公司倒闭时间</td>
+          <td>咨询</td>
+          <td>小明</td>
+          <td>2007-12-6</td>
+          <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to('deal.html')" /></td>
+        </tr> -->
+      </tbody>
+    </table>
+    
+  </div>
+  <div class="position"> 
+  	 <div>当前页</div><div class="currentPage">1</div>
+    <div class="M-box3"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		loadData(1);
+	})
+
+	function loadData(page) {
+		$.ajax({
+			type:"get",
+			url:"/crmsys/cstService/list.do?page=" + page,
+			dataType:"json",
+			success:function(data) {
+				if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.serId+'</td>';
+				        html +='  <td>'+this.custName+'</td>';
+				        html +='  <td>'+this.serTitle+'</td>';
+				        html +='  <td>'+this.serType+'</td>';
+				        html +='  <td>'+this.usrCreateName+'</td>';
+				        html +='  <td>'+this.serCreateDate+'</td>';
+				     	html +='  <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to(\'deal.html?id='+this.serId+'\')" /></td>';
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+			}
+		})
+	}
+	
+	
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			type:"get",
+			url:"/crmsys/customer/findAll.do",
+			dataType:"json",
+			success:function(data) {
+				if(data.code == 1) {
+					var infos = data.info;
+					$(infos).each(function(){
+						var html = '<option value="'+ this.custId +'">' + this.custName +'</option>';
+						$("#serCustNo").append($(html));
+					})
+					
+				}
+			}
+		})
+	})
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			type:"get",
+			url:"/crmsys/basDict/findType.do",
+			dataType:"json",
+			success:function(data) {
+				if(data.code == 1) {
+					var infos = data.info;
+					$(infos).each(function(){
+						var html = '<option value="'+ this.dictItem +'">' + this.dictItem +'</option>';
+						$("#serType").append($(html));
+					})
+					
+				}
+			}
+		})
+	})
+</script>
+
+
+<script type="text/javascript">
+
+	function search(){
+		searchSal(1);
+	}
+	
+	function searchSal(page){
+		$.ajax({
+			type:"post",
+			url:"/crmsys/cstService/search.do?page=" + page,
+			data:$("form").serialize(),
+			dataType:"json",
+			success:function(data) {
+					if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.serId+'</td>';
+				        html +='  <td>'+this.custName+'</td>';
+				        html +='  <td>'+this.serTitle+'</td>';
+				        html +='  <td>'+this.serType+'</td>';
+				        html +='  <td>'+this.usrCreateName+'</td>';
+				        html +='  <td>'+this.serCreateDate+'</td>';
+				     	html +='  <td><img title="操作" src="../images/gear.ico" class="op_button" onclick="to(\'deal.html\')" /></td>';
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+					
+					
+				}
+			})
+	}
+
+</script>
+
+
+
+</body>
+</html>

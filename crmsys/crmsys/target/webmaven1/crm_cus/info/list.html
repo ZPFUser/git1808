@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>客户开发计划</title>
+<link href="../../css/stylesheet.css" rel="stylesheet" type="text/css" />
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<!-- 引入pagination的样式和js文件 -->
+<link href="../../pagination/pagination.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/simpla.jquery.configuration.js"></script>
+<script type="text/javascript" src="../../js/javascript.js"></script>
+<script type="text/javascript" src="../../datepicker/WdatePicker.js"> </script>
+
+<script type="text/javascript" src="../../pagination/jquery.pagination.js"> </script>
+</head>
+
+<body>
+<div style="padding:5px;">
+  <div class="txt" style="padding-top:3px;" >当前位置：客户开发计划&nbsp;&gt;&nbsp;客户信息管理&nbsp;&gt;&nbsp;客户信息
+    <hr class="hr1" />
+  </div>
+  <div class="operation_button"> <button onclick="searchCustomer()">查询</button>  <a href="add.html" title="新建">新建</a></div>
+   <form action="" onsubmit="return false;">
+  <div class="search_input">
+    <ul class="txt">
+      <li>客户名称：
+        <input type="text" name="custName" size="30" />
+      </li>
+      <li>客户经理：
+        <select name="custManagerId" id="manager">
+           <option></option>
+         <!-- <option>小明</option>
+          <option>小红</option>
+          <option>小李</option> -->
+        </select>
+      </li>
+      <li>地区：
+        <select name="custRegionId" id="region">
+          <option></option>
+         <!-- <option>北京</option>
+          <option>华北</option>
+          <option>中南</option>
+          <option>东北</option>
+          <option>西部</option> -->
+        </select>
+      </li>
+      <li>客户等级：
+        <select name="custLevelId" id="level">
+         <option></option>
+          <!--  <option>战略合作伙伴</option>
+          <option>合作伙伴</option>
+          <option>大客户</option>
+          <option>普通客户</option> -->
+        </select>
+      </li>
+    </ul>
+    </div>
+         </form>
+    
+  
+  <div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_list" >
+      <thead>
+        <tr>
+          <th width="5%">序号</th>
+          <th width="15%">客户编号</th>
+          <th width="20%">客户名称</th>
+          <th width="10%">地区</th>
+          <th width="15%">客户经理</th>
+          <th width="15%">客户等级</th>
+          <th width="15%">操作</th>
+        </tr>
+      </thead>
+      <tbody id = "tid">
+       <!--  <tr>
+          <td>1</td>
+          <td>KH071202001</td>
+          <td><a href="#">聪海信息科技有限公司</a></td>
+          <td>北京</td>
+          <td>小明</td>
+          <td>战略合作伙伴</td>
+          <td><img title="编辑" src="../../images/hammer_screwdriver.png" class="op_button" onclick="to('edit.html')" /><img title="联系人" src="../../images/user.ico" class="op_button" onclick="to('linkman.html')" /><img title="交往记录" src="../../images/bubble.ico" class="op_button" onclick="to('contact.html')" /><img title="历史订单" src="../../images/document.ico" class="op_button" onclick="to('order.html')" /></td>
+        </tr> -->
+      
+      </tbody>
+    </table>
+  </div>
+  <div class="position"> <div>当前页</div><div class="currentPage">1</div>
+    <div class="M-box3"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		loadData(1);
+	})
+
+	function loadData(page) {
+		$.ajax({
+			type:"get",
+			url:"/crmsys/customer/list.do?page=" + page,
+			dataType:"json",
+			success:function(data) {
+				if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.custId+'</td>';
+				        html +='  <td>'+this.custNoKh+'</td>';
+				        html +='  <td>'+this.custName+'</td>';
+				        html +='  <td>'+this.custRegion+'</td>';
+				        html +='  <td>'+this.custManagerName+'</td>';
+				        html +='  <td>'+this.custLevelName+'</td>';
+				      if (this.custStatus == 1) {
+				    	html += ' <td><img title="编辑" src="../../images/hammer_screwdriver.png" class="op_button" onclick="to(\'edit.html?id='+this.custId+'\')"/><img title="联系人" src="../../images/user.ico" class="op_button"/><img title="交往记录" src="../../images/bubble.ico" class="op_button" /><img title="历史订单" src="../../images/document.ico" class="op_button" /></td>';
+				      } else {
+				    	  html += '<td></td>';
+				      }
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+			}
+		})
+	}
+	
+	
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$.ajax({
+		type:"get",
+		url:"/crmsys/customer/findCus.do",
+		dataType:"json",
+		success:function(data) {
+			if (data.code == 1) {
+				var infos = data.info;
+				var region = infos.custRegion;
+				var manager = infos.custManager;
+				var level = infos.custLevel;
+				
+				$(region).each(function(){
+					var html = '<option value="'+ this.dictId +'">' + this.dictItem +'</option>';
+					$("#region").append($(html));	
+				})
+				
+					
+		        $(manager).each(function(){
+					var html2 = '<option value="'+ this.usrId +'">' + this.usrName +'</option>';
+					$("#manager").append($(html2));
+		        })
+		        
+		       
+		        $(level).each(function(){
+				var html3 = '<option value="'+ this.dictId +'">' + this.dictItem +'</option>';
+					 $("#level").append($(html3));
+		        
+		        })
+		          
+		       
+			        
+				}
+		}
+	})
+			})
+
+
+</script>
+
+<script type="text/javascript">
+
+	function searchCustomer(){
+		search(1);
+	}
+	
+	function search(page){
+		$.ajax({
+			type:"post",
+			url:"/crmsys/customer/search.do?page="+page,
+			data:$("form").serialize(),
+			dataType:"json",
+			success:function(data) {
+					if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.custId+'</td>';
+				        html +='  <td>'+this.custNoKh+'</td>';
+				        html +='  <td>'+this.custName+'</td>';
+				        html +='  <td>'+this.custRegion+'</td>';
+				        html +='  <td>'+this.custManagerName+'</td>';
+				        html +='  <td>'+this.custLevelName+'</td>';
+				      if (this.custStatus == 1) {
+				    	html += ' <td><img title="编辑" src="../../images/hammer_screwdriver.png" class="op_button" onclick="to(\'edit.html?id='+this.custId+'\')"/><img title="联系人" src="../../images/user.ico" class="op_button"/><img title="交往记录" src="../../images/bubble.ico" class="op_button" /><img title="历史订单" src="../../images/document.ico" class="op_button" /></td>';
+				      } else {
+				    	  html += '<td></td>';
+				      }
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+					
+					
+				}
+			})
+	}
+
+</script>
+
+
+
+</body>
+</html>

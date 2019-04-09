@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.SysCstCustomerMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.SysCstCustomer">
+    <id column="cust_Id" jdbcType="INTEGER" property="custId" />
+    <result column="cust_no_KH" jdbcType="VARCHAR" property="custNoKh" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="cust_region_id" jdbcType="INTEGER" property="custRegionId" />
+    <result column="cust_manager_id" jdbcType="INTEGER" property="custManagerId" />
+    <result column="cust_level_id" jdbcType="INTEGER" property="custLevelId" />
+    <result column="cust_satisfy" jdbcType="INTEGER" property="custSatisfy" />
+    <result column="cust_credit" jdbcType="INTEGER" property="custCredit" />
+    <result column="cust_addr" jdbcType="VARCHAR" property="custAddr" />
+    <result column="cust_zip" jdbcType="VARCHAR" property="custZip" />
+    <result column="cust_tel" jdbcType="VARCHAR" property="custTel" />
+    <result column="cust_status" jdbcType="INTEGER" property="custStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cust_Id, cust_no_KH, cust_name, cust_region_id, cust_manager_id, cust_level_id, cust_satisfy, 
+    cust_credit, cust_addr, cust_zip, cust_tel, cust_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cst_customer
+    where cust_Id = #{custId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cst_customer
+    where cust_Id = #{custId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.SysCstCustomer">
+    insert into cst_customer (cust_Id, cust_no_KH, cust_name, 
+      cust_region_id, cust_manager_id, cust_level_id, 
+      cust_satisfy, cust_credit, cust_addr, 
+      cust_zip, cust_tel, cust_status
+      )
+    values (#{custId,jdbcType=INTEGER}, #{custNoKh,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, 
+      #{custRegionId,jdbcType=INTEGER}, #{custManagerId,jdbcType=INTEGER}, #{custLevelId,jdbcType=INTEGER}, 
+      #{custSatisfy,jdbcType=INTEGER}, #{custCredit,jdbcType=INTEGER}, #{custAddr,jdbcType=VARCHAR}, 
+      #{custZip,jdbcType=VARCHAR}, #{custTel,jdbcType=VARCHAR}, #{custStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.pojo.SysCstCustomer">
+    insert into cst_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        cust_Id,
+      </if>
+      <if test="custNoKh != null">
+        cust_no_KH,
+      </if>
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="custRegionId != null">
+		cust_region_id,
+      </if>
+      <if test="custManagerId != null">
+        cust_manager_id,
+      </if>
+      <if test="custLevelId != null">
+        cust_level_id,
+      </if>
+      <if test="custSatisfy != null">
+        cust_satisfy,
+      </if>
+      <if test="custCredit != null">
+        cust_credit,
+      </if>
+      <if test="custAddr != null">
+        cust_addr,
+      </if>
+      <if test="custZip != null">
+        cust_zip,
+      </if>
+      <if test="custTel != null">
+        cust_tel,
+      </if>
+      <if test="custStatus != null">
+        cust_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="custNoKh != null">
+        #{custNoKh,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null">
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custRegionId != null">
+        #{custRegionId,jdbcType=INTEGER},
+      </if>
+      <if test="custManagerId != null">
+        #{custManagerId,jdbcType=INTEGER},
+      </if>
+      <if test="custLevelId != null">
+        #{custLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="custSatisfy != null">
+        #{custSatisfy,jdbcType=INTEGER},
+      </if>
+      <if test="custCredit != null">
+        #{custCredit,jdbcType=INTEGER},
+      </if>
+      <if test="custAddr != null">
+        #{custAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="custZip != null">
+        #{custZip,jdbcType=VARCHAR},
+      </if>
+      <if test="custTel != null">
+        #{custTel,jdbcType=VARCHAR},
+      </if>
+      <if test="custStatus != null">
+        #{custStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.pojo.SysCstCustomer">
+    update cst_customer
+    <set>
+      <if test="custNoKh != null">
+        cust_no_KH = #{custNoKh,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custRegionId != null">
+        cust_region_id = #{custRegionId,jdbcType=INTEGER},
+      </if>
+      <if test="custManagerId != null">
+        cust_manager_id = #{custManagerId,jdbcType=INTEGER},
+      </if>
+      <if test="custLevelId != null">
+        cust_level_id = #{custLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="custSatisfy != null">
+        cust_satisfy = #{custSatisfy,jdbcType=INTEGER},
+      </if>
+      <if test="custCredit != null">
+        cust_credit = #{custCredit,jdbcType=INTEGER},
+      </if>
+      <if test="custAddr != null">
+        cust_addr = #{custAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="custZip != null">
+        cust_zip = #{custZip,jdbcType=VARCHAR},
+      </if>
+      <if test="custTel != null">
+        cust_tel = #{custTel,jdbcType=VARCHAR},
+      </if>
+      <if test="custStatus != null">
+        cust_status = #{custStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cust_Id = #{custId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.SysCstCustomer">
+	update cst_customer
+	set cust_no_KH = #{custNoKh,jdbcType=VARCHAR},
+	cust_name = #{custName,jdbcType=VARCHAR},
+	cust_region_id = #{custRegionId,jdbcType=INTEGER},
+	cust_manager_id = #{custManagerId,jdbcType=INTEGER},
+	cust_level_id = #{custLevelId,jdbcType=INTEGER},
+	cust_satisfy = #{custSatisfy,jdbcType=INTEGER},
+	cust_credit = #{custCredit,jdbcType=INTEGER},
+	cust_addr = #{custAddr,jdbcType=VARCHAR},
+	cust_zip = #{custZip,jdbcType=VARCHAR},
+	cust_tel = #{custTel,jdbcType=VARCHAR},
+	cust_status = #{custStatus,jdbcType=INTEGER}
+	where cust_Id = #{custId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap type="com.qianfeng.vo.VCustomer" id="cusMap">
+  	<result column="cId" property="custId"></result>
+  	<result column="cNoKh" property="custNoKh"></result>
+  	<result column="cName" property="custName"></result>
+  	<result column="cRegion" property="custRegion"></result>
+  	<result column="cManagerName" property="custManagerName"></result>
+  	<result column="cLevelName" property="custLevelName"></result>
+  	<result column="cStatus" property="custStatus"></result>
+  </resultMap>
+  
+  <select id="selectAll" resultMap="cusMap">
+  	select cc.cust_Id cId, cc.cust_no_KH cNoKh, cc.cust_name cName, d2.dict_item cRegion,u.usr_name cManagerName, d.dict_item cLevelName, cc.cust_status cStatus
+	from cst_customer cc
+	INNER JOIN sys_user u
+	on cc.cust_manager_id = u.usr_id
+	INNER JOIN bas_dict d
+	on d.dict_id=cust_level_id
+	INNER JOIN bas_dict d2
+	on d2.dict_id = cc.cust_region_id
+  </select>
+  
+  <select id="selectByRecord"  parameterType="com.qianfeng.pojo.SysCstCustomer" resultMap="cusMap">
+   	select cc.cust_Id cId, cc.cust_no_KH cNoKh, cc.cust_name cName, d2.dict_item cRegion,u.usr_name cManagerName, d.dict_item cLevelName, cc.cust_status cStatus
+	from cst_customer cc
+	INNER JOIN sys_user u
+	on cc.cust_manager_id = u.usr_id
+	INNER JOIN bas_dict d
+	on d.dict_id=cust_level_id
+	INNER JOIN bas_dict d2
+	on d2.dict_id = cc.cust_region_id
+	where 1 = 1 
+	 <if test="custName != null">
+        and cc.cust_name like "%"#{custName}"%"
+      </if>
+      <if test="custManagerId != null">
+  		and cc.cust_manager_id=#{custManagerId}
+  	</if>
+  	<if test="custRegionId != null">
+  		and cc.cust_region_id=#{custRegionId}
+  	</if>
+  	<if test="custLevelId != null">
+  		and cc.cust_level_id=#{custLevelId}
+  	</if>
+  </select>
+  
+   <select id="selectAllCustomer" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+   from cst_customer
+  </select>
+  
+  <select id="selectCustomer" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+   	from cst_customer
+   	INNER JOIN cst_service
+	on cst_service.ser_cust_no = cst_customer.cust_Id
+	where cst_service.ser_id=#{serId,jdbcType=INTEGER}
+  </select>
+  
+  
+</mapper>

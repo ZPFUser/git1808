@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>客户开发计划列表</title>
+<link href="../../css/stylesheet.css" rel="stylesheet" type="text/css" />
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<link href="../../pagination/pagination.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/simpla.jquery.configuration.js"></script>
+<script type="text/javascript" src="../../js/javascript.js"></script>
+<script type="text/javascript" src="../../datepicker/WdatePicker.js"> </script>
+<script type="text/javascript" src="../../pagination/jquery.pagination.js"> </script>
+
+</head>
+
+<body>
+<div style="padding:5px;">
+  <div class="txt" style="padding-top:3px;" >当前位置：营销管理&nbsp;&gt;&nbsp;客户开发计划&nbsp;&gt;&nbsp;开发计划
+    <hr class="hr1" />
+  </div>
+  <div class="operation_button">
+  <a href="#" title="新建" onclick="to('add.html')">新建</a>
+    <a href="javascript:search()" title="查询">查询</a>
+  </div>
+  
+  <form action="" onsubmit="return false;">
+  
+  <div class="search_input">
+    <ul class="txt">
+      <li>客户名称：
+        <input type="text" size="30" name="chcCustName" />
+      </li>
+      <li>联系人：
+        <input type="text" size="30" name="chcLinkman" />
+      </li>
+      <li>创建时间：
+        <input type="text" size="30" name="chcCreateDate" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd'})" />
+      </li>
+    </ul>
+  </div>
+  </form>
+  
+  <div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_list" >
+      <thead>
+        <tr>
+          <th width="5%">编号</th>
+          <th width="15%">客户名称</th>
+          <th width="15%">概要</th>
+          <th width="10%">联系人</th>
+          <th width="15%">联系电话</th>
+          <th width="15%">创建时间</th>
+          <th width="10%">状态</th>
+          <th width="15%">操作</th>
+        </tr>
+      </thead>
+      <tbody id="tid">
+       <!--  <tr>
+          <td>1</td>
+          <td><a href="#">睿智数码</a></td>
+          <td>采购笔记本电脑意向</td>
+          <td>刘先生</td>
+          <td>1389675634</td>
+          <td>2007-12-6</td>
+          <td>未开发</td>
+          <td><img title="制定计划" src="../../images/pencil.ico" class="op_button" onclick="to('opp_dispatch.html')" /> <img title="执行计划" src="../../images/right.ico" class="op_button" onclick="to('opp_edit.html')" /></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="#">睿智数码</a></td>
+          <td>采购笔水电费记本意向</td>
+          <td>刘先生</td>
+          <td>1389675634</td>
+          <td>2007-12-6</td>
+          <td>开发中</td>
+          <td><img title="制定计划" src="../../images/pencil.ico" class="op_button" onclick="to('opp_dispatch.html')" /> <img title="执行计划" src="../../images/right.ico" class="op_button" onclick="to('opp_edit.html')" /><img title="开发成功" src="../../images/tick.ico" class="op_button" onclick="to('opp_edit.html')" /></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="#">睿智数码</a></td>
+          <td>采记本意向</td>
+          <td>刘先生</td>
+          <td>1389675634</td>
+          <td>2007-12-6</td>
+          <td>开发中</td>
+          <td><img title="制定计划" src="../../images/pencil.ico" class="op_button" onclick="to('opp_dispatch.html')" /> <img title="执行计划" src="../../images/right.ico" class="op_button" onclick="to('opp_edit.html')" /><img title="开发成功" src="../../images/tick.ico" class="op_button" onclick="to('opp_edit.html')" /></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="#">睿智数码</a></td>
+          <td>采购笔所得税法记本意向</td>
+          <td>刘先生</td>
+          <td>1389675634</td>
+          <td>2007-12-6</td>
+          <td>已归档</td>
+          <td><img title="已归档" src="../../images/briefcase.ico" class="op_button" /></td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+  <div class="position"> 
+  	<div>当前页</div><div class="currentPage">1</div>
+    <div class="M-box3"></div> 
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		loadData(1);
+	})
+
+	function loadData(page) {
+		$.ajax({
+			type:"get",
+			url:"/crmsys/sal/list.do?page=" + page,
+			dataType:"json",
+			success:function(data) {
+				if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.chcId+'</td>';
+				        html +='  <td>'+this.chcCustName+'</td>';
+				        html +='  <td>'+this.chcTitle+'</td>';
+				        html +='  <td>'+this.chcLinkman+'</td>';
+				        html +='  <td>'+this.chcTel+'</td>';
+				        html +='  <td>'+this.chcCreateDate+'</td>';
+				      if (this.chcStatus == 1) {
+				    	html += ' <td>未指派</td>';
+				      } else if(this.chcStatus == 2){
+				    	  html += '<td>已指派</td>';
+				      } else if(this.chcStatus == 3){
+				    	  html += '<td>开发成功</td>';
+				      }  else{
+				    	  html += '<td>开发失败</td>';
+				      }
+				      
+				     	html += ' <td><img title="制定计划" src="../../images/pencil.ico" class="op_button" onclick="to(\'opp_dispatch.html\')" /> <img title="执行计划" src="../../images/right.ico" class="op_button" onclick="to(\'opp_edit.html\')" /><img title="开发成功" src="../../images/tick.ico" class="op_button" onclick="to(\'opp_edit.html\')" /></td>';
+				      
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+			}
+		})
+	}
+	
+	
+</script>
+
+<script type="text/javascript">
+
+	function search(){
+		searchSal(1);
+	}
+	
+	function searchSal(page){
+		$.ajax({
+			type:"post",
+			url:"/crmsys/sal/search.do?page=" + page,
+			data:$("form").serialize(),
+			dataType:"json",
+			success:function(data) {
+					if (data.code == 1) {
+					
+					var total = data.info.total;//获取总行数
+					var pageCount = Math.ceil(total / 5); // 向上取整     计算总页数
+					var infos = data.info.rows;
+					$("#tid").empty();
+					$(infos).each(function(){
+						var html = '<tr>';
+				        html +='  <td>'+this.chcId+'</td>';
+				        html +='  <td>'+this.chcCustName+'</td>';
+				        html +='  <td>'+this.chcTitle+'</td>';
+				        html +='  <td>'+this.chcLinkman+'</td>';
+				        html +='  <td>'+this.chcTel+'</td>';
+				        html +='  <td>'+this.chcCreateDate+'</td>';
+				      if (this.chcStatus == 1) {
+				    	html += ' <td>未指派</td>';
+				      } else if(this.chcStatus == 2){
+				    	  html += '<td>已指派</td>';
+				      } else if(this.chcStatus == 3){
+				    	  html += '<td>开发成功</td>';
+				      }  else {
+				    	  html += '<td>开发失败</td>';
+				      }
+				      
+				     	html += ' <td><img title="制定计划" src="../../images/pencil.ico" class="op_button" onclick="to(\'opp_dispatch.html\')" /> <img title="执行计划" src="../../images/right.ico" class="op_button" onclick="to(\'opp_edit.html\')" /><img title="开发成功" src="../../images/tick.ico" class="op_button" onclick="to(\'opp_edit.html\')" /></td>';
+				      
+				        html +=' </tr>';
+				        
+				        $("#tid").append($(html));
+					})
+				}
+			 	$('.M-box3').pagination({
+				    pageCount:pageCount,
+				    current:$(".currentPage").html(),
+				    jump:true,
+				    coping:true,
+				    keepShowPN:true, //是否一致显示上一页下一页
+				    homePage:'首页',
+				    endPage:'末页',
+				    prevContent:'<',
+				    nextContent:'>',
+				    jumpBtn:"go",
+				    callback:function(api) {
+				    	$(".currentPage").html(api.getCurrent());
+				    	//getCurrent() 获取当前页
+				    	loadData(api.getCurrent());
+				    }
+				}); 
+					
+					
+				}
+			})
+	}
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
